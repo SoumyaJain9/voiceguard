@@ -1,0 +1,40 @@
+# Python Bytecode and Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.env
+
+# Model Checkpoints and Weights
+checkpoints/
+*.pth
+*.pt
+*.bin
+*.onnx
+models/*
+!models/README.md
+
+# Audio Data and Artifacts
+Dataset/
+data/
+*.wav
+*.mp3
+*.flac
+*.ogg
+sample_audio/*.wav
+
+# Logs and SQLite Database
+logs/
+*.db
+*.sqlite
+*.log
+
+# Jupyter and IDE
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoxGuard AI — Multilingual Deepfake Audio Detection</title>
+    <meta name="description" content="Explainable Multilingual Deepfake Audio Forensic Detection and Acoustic Biomarker Analysis System.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-glow top-left"></div>
+    <div class="background-glow bottom-right"></div>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" y1="19" x2="12" y2="22"></line>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">VoxGuard <span class="gradient-text">AI</span></span>
+                    <span class="brand-badge">College Capstone</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="#detector" class="active">Detector</a>
+                <a href="#metrics-guide">Forensics</a>
+                <a href="#history-section">Audit Logs</a>
+                <a href="#architecture">Architecture</a>
+            </nav>
+            <div class="status-indicator" id="server-status">
+                <span class="status-dot online"></span>
+                <span class="status-text">Engine Ready</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-pill">
+                <span class="sparkle">✨</span> Multilingual Deepfake Audio Forensic System
+            </div>
+            <h1 class="hero-title">Defending Vocal Truth with <br><span class="gradient-text">Explainable AI Forensics</span></h1>
+            <p class="hero-subtitle">
+                Powered by <strong>Wav2Vec 2.0 XLS-R</strong> (300M) self-supervised features, <strong>AASIST Graph Attention Networks</strong>, and <strong>Praat acoustic perturbation analysis</strong> across 5 Indian & Global languages.
+            </p>
+        </section>
+
+        <!-- Detection Workspace -->
+        <section id="detector" class="detector-workspace">
+            <div class="workspace-grid">
+                <!-- Left: Audio Ingestion Card -->
+                <div class="glass-card input-card">
+                    <div class="card-header">
+                        <h2>1. Ingest Audio Stream</h2>
+                        <span class="step-num">Step 1</span>
+                    </div>
+
+                    <!-- Language Selector -->
+                    <div class="form-group">
+                        <label for="language-select">Target Spoken Language:</label>
+                        <div class="select-wrapper">
+                            <select id="language-select" class="custom-select">
+                                <option value="English" selected>English</option>
+                                <option value="Hindi">Hindi (हिंदी)</option>
+                                <option value="Tamil">Tamil (தமிழ்)</option>
+                                <option value="Telugu">Telugu (తెలుగు)</option>
+                                <option value="Malayalam">Malayalam (മലയാളം)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Ingestion Tabs: Upload vs Live Microphone -->
+                    <div class="tab-controls">
+                        <button class="tab-btn active" id="tab-upload-btn" type="button">📁 Upload Audio File</button>
+                        <button class="tab-btn" id="tab-mic-btn" type="button">🎙️ Live Microphone</button>
+                    </div>
+
+                    <!-- Upload Box -->
+                    <div class="drop-zone" id="drop-zone">
+                        <input type="file" id="audio-file-input" accept="audio/*" class="file-input-hidden">
+                        <div class="drop-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </div>
+                        <p class="drop-primary">Drag & drop audio file or <span class="browse-link">browse</span></p>
+                        <p class="drop-sub">Supported: MP3, WAV, FLAC, M4A, OGG (Max 25MB)</p>
+                    </div>
+
+                    <!-- Live Mic Box (Hidden by default) -->
+                    <div class="mic-zone hidden" id="mic-zone">
+                        <div class="mic-pulse-container">
+                            <button class="mic-record-btn" id="mic-record-btn" type="button">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                    <line x1="12" y1="19" x2="12" y2="22"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="mic-instruction" id="mic-status-text">Click to Start Recording Speech (3–5 seconds)</p>
+                        <div class="recording-timer hidden" id="recording-timer">00:00</div>
+                    </div>
+
+                    <!-- Audio Player & Visualizer Canvas -->
+                    <div class="audio-preview-box hidden" id="audio-preview-box">
+                        <div class="preview-header">
+                            <span id="audio-file-name">audio_sample.wav</span>
+                            <button id="remove-audio-btn" class="icon-btn" title="Remove Audio">✕</button>
+                        </div>
+                        <audio id="audio-player" controls class="custom-audio-player"></audio>
+                        <canvas id="waveform-canvas" height="60"></canvas>
+                    </div>
+
+                    <!-- Analyze Button -->
+                    <button class="btn-primary analyze-btn" id="analyze-btn" disabled>
+                        <span class="btn-text">Run Deepfake Forensic Analysis</span>
+                        <span class="btn-icon">⚡</span>
+                    </button>
+                </div>
+
+                <!-- Right: Forensic Analysis & Verdict Card -->
+                <div class="glass-card result-card" id="result-card">
+                    <div class="card-header">
+                        <h2>2. Forensic Verdict & Explainability</h2>
+                        <span class="step-num">Step 2</span>
+                    </div>
+
+                    <!-- Empty State Prompt -->
+                    <div class="empty-state" id="empty-state">
+                        <div class="empty-icon">🔬</div>
+                        <h3>Awaiting Audio Ingestion</h3>
+                        <p>Upload a voice clip or record live speech to extract acoustic biomarkers and deepfake probabilities.</p>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="loading-state hidden" id="loading-state">
+                        <div class="spinner"></div>
+                        <h3>Analyzing Acoustic Anomalies...</h3>
+                        <p>Passing through Wav2Vec2 XLS-R ➔ AASIST Graph Attention ➔ Praat Feature Extraction</p>
+                    </div>
+
+                    <!-- Output Verdict Content -->
+                    <div class="result-content hidden" id="result-content">
+                        <!-- Primary Verdict Banner -->
+                        <div class="verdict-banner" id="verdict-banner">
+                            <div class="verdict-main">
+                                <span class="verdict-tag" id="verdict-tag">ANALYSIS RESULT</span>
+                                <h3 class="verdict-title" id="verdict-title">GENUINE HUMAN SPEECH</h3>
+                                <p class="verdict-subtitle" id="verdict-subtitle">Acoustic structures show natural glottal pulses.</p>
+                            </div>
+                            <div class="verdict-gauge">
+                                <div class="gauge-circle" id="gauge-circle">
+                                    <span class="gauge-val" id="gauge-val">96.4%</span>
+                                    <span class="gauge-label">Confidence</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Acoustic Biomarker Cards -->
+                        <div class="metrics-grid">
+                            <div class="metric-box">
+                                <span class="metric-label">Jitter (Pitch Stability)</span>
+                                <span class="metric-value" id="val-jitter">0.42%</span>
+                                <span class="metric-norm">Normal: 0.2%–1.5%</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Shimmer (Amplitude Var.)</span>
+                                <span class="metric-value" id="val-shimmer">2.15%</span>
+                                <span class="metric-norm">Normal: < 5.0%</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">HNR (Harmonics Ratio)</span>
+                                <span class="metric-value" id="val-hnr">24.6 dB</span>
+                                <span class="metric-norm">Normal: > 20.0 dB</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Spectral Flatness</span>
+                                <span class="metric-value" id="val-flatness">0.0034</span>
+                                <span class="metric-norm">Tonal Dispersion</span>
+                            </div>
+                        </div>
+
+                        <!-- Decision Attribution Weight Bar -->
+                        <div class="decision-weights">
+                            <div class="weights-header">
+                                <span>Decision Attribution Synthesis</span>
+                            </div>
+                            <div class="weight-bar-track">
+                                <div class="weight-bar-fill model-fill" id="weight-model-bar" style="width: 70%;">Neural: 70%</div>
+                                <div class="weight-bar-fill signal-fill" id="weight-signal-bar" style="width: 30%;">DSP: 30%</div>
+                            </div>
+                        </div>
+
+                        <!-- Natural Language Explanation Narrative -->
+                        <div class="explanation-box">
+                            <h4>📝 Forensic Assessment Narrative</h4>
+                            <p id="explanation-text">The voice signal exhibits natural glottal cycle periodicity and organic amplitude variation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metrics Forensic Guide Section -->
+        <section id="metrics-guide" class="info-section">
+            <h2 class="section-title">Acoustic Biomarkers & Explainability Matrix</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">📈</div>
+                    <h3>Jitter (Pitch Stability)</h3>
+                    <p>Measures cycle-to-cycle variations in fundamental frequency (F0). AI vocoders often produce unnaturally static pitch trajectories or erratic synthetic glitches.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🔊</div>
+                    <h3>Shimmer (Amplitude Dynamics)</h3>
+                    <p>Quantifies micro-variations in waveform peak amplitudes. Human speech contains natural breathiness and emotional modulation absent in synthetic models.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🎼</div>
+                    <h3>Harmonics-to-Noise (HNR)</h3>
+                    <p>Evaluates harmonic vocal tract energy versus spectral noise floor. Vocoder synthesis artifacts and neural phase dispersion trigger low HNR values (< 20 dB).</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🕸️</div>
+                    <h3>Spectro-Temporal GAT</h3>
+                    <p>AASIST Graph Attention Networks treat time and frequency bins as graph nodes, uncovering subtle non-local spectral phase artifacts left behind by generative models.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Audit History Section -->
+        <section id="history-section" class="history-section">
+            <div class="history-header">
+                <h2>Real-Time Audit Log & Scan History</h2>
+                <button class="btn-secondary" id="refresh-history-btn">🔄 Refresh Logs</button>
+            </div>
+            <div class="table-container glass-card">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Scan ID</th>
+                            <th>Timestamp</th>
+                            <th>Language</th>
+                            <th>Verdict</th>
+                            <th>Confidence</th>
+                            <th>Latency</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body">
+                        <tr>
+                            <td colspan="6" class="text-center">No scan records found yet. Run an analysis above.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Architecture Overview -->
+        <section id="architecture" class="architecture-section">
+            <h2 class="section-title">VoxGuard AI Hybrid Architecture</h2>
+            <div class="arch-box glass-card">
+                <div class="arch-flow">
+                    <div class="flow-step">
+                        <span class="flow-tag">Stage 1</span>
+                        <h4>Acoustic Ingestion</h4>
+                        <p>16kHz Mono standardization & peak normalization.</p>
+                    </div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-step highlight">
+                        <span class="flow-tag">Stage 2</span>
+                        <h4>Wav2Vec2 XLS-R (300M)</h4>
+                        <p>Cross-lingual self-supervised feature extraction.</p>
+                    </div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-step highlight">
+                        <span class="flow-tag">Stage 3</span>
+                        <h4>AASIST Graph GAT</h4>
+                        <p>Spectro-temporal artifact graph classification.</p>
+                    </div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-step">
+                        <span class="flow-tag">Stage 4</span>
+                        <h4>Praat DSP & Explainability</h4>
+                        <p>Jitter, Shimmer, HNR & temperature calibration.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>VoxGuard AI — Final Year Engineering Capstone Project | Built with FastAPI, PyTorch & ONNX Runtime</p>
+    </footer>
+
+    <script src="app.js?v=4"></script>
+</body>
+</html>

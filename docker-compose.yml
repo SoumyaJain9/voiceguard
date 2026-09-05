@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  voxguard_api:
+    build: .
+    container_name: voxguard_ai_service
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PATH=/app/models/best_model.onnx
+      - SQLITE_DB_PATH=/app/logs/audit_trail.db
+      - SUPABASE_URL=${SUPABASE_URL:-}
+      - SUPABASE_KEY=${SUPABASE_KEY:-}
+    volumes:
+      - ./logs:/app/logs
+      - ./models:/app/models
+    restart: unless-stopped
