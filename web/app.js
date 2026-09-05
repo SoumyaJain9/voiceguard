@@ -47,10 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let recordSeconds = 0;
     let audioContext = null;
 
+    const API_BASE_URL = window.VOXGUARD_API_URL || '';
+    function getApiUrl(endpoint) {
+        return API_BASE_URL ? `${API_BASE_URL.replace(/\/$/, '')}${endpoint}` : endpoint;
+    }
+
     // Check Server Health
     async function checkHealth() {
         try {
-            const res = await fetch('/health');
+            const res = await fetch(getApiUrl('/health'));
             if (res.ok) {
                 const data = await res.json();
                 serverStatus.innerHTML = '<span class="status-dot online"></span><span class="status-text">Engine Ready</span>';
@@ -315,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch('/api/voice-detection', {
+            const response = await fetch(getApiUrl('/api/voice-detection'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -398,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Audit History Loader
     async function fetchScanHistory() {
         try {
-            const res = await fetch('/api/history?limit=10');
+            const res = await fetch(getApiUrl('/api/history?limit=10'));
             if (res.ok) {
                 const json = await res.json();
                 renderHistory(json.scans || []);
