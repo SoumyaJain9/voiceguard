@@ -2,6 +2,8 @@
   "version": 2,
   "public": true,
   "cleanUrls": true,
+  "framework": null,
+  "outputDirectory": "web",
   "rewrites": [
     {
       "source": "/api/:path*",

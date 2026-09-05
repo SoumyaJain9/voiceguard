@@ -14,9 +14,9 @@ checkpoints/
 *.pth
 *.pt
 *.bin
-*.onnx
 models/*
 !models/README.md
+!models/best_model.onnx
 
 # Audio Data and Artifacts
 Dataset/
@@ -38,3 +38,5 @@ logs/
 .vscode/
 .idea/
 .DS_Store
+
+.vercel

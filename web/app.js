@@ -320,14 +320,27 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch(getApiUrl('/api/voice-detection'), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': 'voxguard-college-eval-key'
-                },
-                body: JSON.stringify(payload)
-            });
+            let response = null;
+            try {
+                response = await fetch(getApiUrl('/api/voice-detection'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': 'voxguard-college-eval-key'
+                    },
+                    body: JSON.stringify(payload)
+                });
+            } catch (networkErr) {
+                // Secondary fallback: Direct fetch to Render backend
+                response = await fetch('https://voxguard-api.onrender.com/api/voice-detection', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': 'voxguard-college-eval-key'
+                    },
+                    body: JSON.stringify(payload)
+                });
+            }
 
             const data = await response.json();
             loadingState.classList.add('hidden');
@@ -343,8 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
             loadingState.classList.add('hidden');
             analyzeBtn.disabled = false;
-            // Provide simulated fallback for client preview if offline
-            displaySimulatedResult();
+            emptyState.classList.remove('hidden');
+            alert('Backend API Notice: Unable to reach live Render AI backend.\nIf your Render backend was just created or is sleeping, please wait ~20 seconds for cold start and click Run Forensic Analysis again.');
         }
     });
 
@@ -383,21 +396,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         explanationText.textContent = data.explanation || 'Biomarker evaluation complete.';
-    }
-
-    function displaySimulatedResult() {
-        displayResults({
-            classification: 'HUMAN',
-            confidenceScore: 0.942,
-            explanation: 'Natural glottal cycle periodicity and organic acoustic variation detected.',
-            metrics: {
-                jitter: 0.0042,
-                shimmer: 0.021,
-                hnr: 23.4,
-                spectral_flatness: 0.0035,
-                confidence_weights: { Neural_Pattern_Match: 0.65, Acoustic_Signal_Artifacts: 0.35 }
-            }
-        });
     }
 
     // Audit History Loader
