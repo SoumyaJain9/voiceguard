@@ -320,27 +320,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            let response = null;
-            try {
-                response = await fetch(getApiUrl('/api/voice-detection'), {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': 'voxguard-college-eval-key'
-                    },
-                    body: JSON.stringify(payload)
-                });
-            } catch (networkErr) {
-                // Secondary fallback: Direct fetch to Render backend
-                response = await fetch('https://voxguard-api.onrender.com/api/voice-detection', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': 'voxguard-college-eval-key'
-                    },
-                    body: JSON.stringify(payload)
-                });
-            }
+            const response = await fetch(getApiUrl('/api/voice-detection'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': 'voxguard-college-eval-key'
+                },
+                body: JSON.stringify(payload)
+            });
 
             const data = await response.json();
             loadingState.classList.add('hidden');
@@ -357,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingState.classList.add('hidden');
             analyzeBtn.disabled = false;
             emptyState.classList.remove('hidden');
-            alert('Backend API Notice: Unable to reach live Render AI backend.\nIf your Render backend was just created or is sleeping, please wait ~20 seconds for cold start and click Run Forensic Analysis again.');
+            alert('Analysis Error: Unable to process request. Please check audio format and try again.');
         }
     });
 

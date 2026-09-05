@@ -1,17 +1,17 @@
 {
   "version": 2,
-  "public": true,
-  "cleanUrls": true,
-  "framework": null,
-  "outputDirectory": "web",
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://voxguard-api.onrender.com/api/:path*"
+      "destination": "/api/index.py"
     },
     {
       "source": "/health",
-      "destination": "https://voxguard-api.onrender.com/health"
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/web/$1"
     }
   ]
 }
